@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include libyanstore_addons *.css
+recursive-include libyanstore_addons *.csv
+recursive-include libyanstore_addons *.html
+recursive-include libyanstore_addons *.ico
+recursive-include libyanstore_addons *.js
+recursive-include libyanstore_addons *.json
+recursive-include libyanstore_addons *.md
+recursive-include libyanstore_addons *.png
+recursive-include libyanstore_addons *.py
+recursive-include libyanstore_addons *.svg
+recursive-include libyanstore_addons *.txt
+recursive-exclude libyanstore_addons *.pyc
