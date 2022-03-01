@@ -11,23 +11,23 @@ erpnext.PointOfSale.PastOrderSummary = class {
 		this.init_email_print_dialog();
 		this.bind_events();
 		this.attach_shortcuts();
+		console.log("overrided!!")
 	}
 
 	prepare_dom() {
-		console.log('append, super overrided');
 		this.wrapper.append(
 			`<section class="past-order-summary">
 				<div class="no-summary-placeholder">
-					Select an invoice to load summary data
+					${__('Select an invoice to load summary data')}
 				</div>
 				<div class="invoice-summary-wrapper">
 					<div class="abs-container">
 						<div class="upper-section"></div>
-						<div class="label">Items</div>
+						<div class="label">${__('Items')}</div>
 						<div class="items-container summary-container"></div>
-						<div class="label">Totals</div>
+						<div class="label">${__('Totals')}</div>
 						<div class="totals-container summary-container"></div>
-						<div class="label">Payments</div>
+						<div class="label">${__('Payments')}</div>
 						<div class="payments-container summary-container"></div>
 						<div class="summary-btns"></div>
 					</div>
@@ -75,7 +75,7 @@ erpnext.PointOfSale.PastOrderSummary = class {
 	get_upper_section_html(doc) {
 		const { status } = doc;
 		let indicator_color = '';
-``
+
 		in_list(['Paid', 'Consolidated'], status) && (indicator_color = 'green');
 		status === 'Draft' && (indicator_color = 'red');
 		status === 'Return' && (indicator_color = 'grey');
@@ -83,7 +83,7 @@ erpnext.PointOfSale.PastOrderSummary = class {
 		return `<div class="left-section">
 					<div class="customer-name">${doc.customer}</div>
 					<div class="customer-email">${this.customer_email}</div>
-					<div class="cashier">Sold by: ${doc.owner}</div>
+					<div class="cashier">${__('Sold by')}: ${doc.owner}</div>
 				</div>
 				<div class="right-section">
 					<div class="paid-amount">${format_currency(doc.paid_amount, doc.currency)}</div>
@@ -122,7 +122,7 @@ erpnext.PointOfSale.PastOrderSummary = class {
 
 	get_net_total_html(doc) {
 		return `<div class="summary-row-wrapper">
-					<div>Net Total</div>
+					<div>${__('Net Total')}</div>
 					<div>${format_currency(doc.net_total, doc.currency)}</div>
 				</div>`;
 	}
@@ -145,14 +145,14 @@ erpnext.PointOfSale.PastOrderSummary = class {
 
 	get_grand_total_html(doc) {
 		return `<div class="summary-row-wrapper grand-total">
-					<div>Grand Total</div>
+					<div>${__('Grand Total')}</div>
 					<div>${format_currency(doc.grand_total, doc.currency)}</div>
 				</div>`;
 	}
 
 	get_payment_html(doc, payment) {
 		return `<div class="summary-row-wrapper payments">
-					<div>${payment.mode_of_payment}</div>
+					<div>${__(payment.mode_of_payment)}</div>
 					<div>${format_currency(payment.amount, doc.currency)}</div>
 				</div>`;
 	}
@@ -210,22 +210,6 @@ erpnext.PointOfSale.PastOrderSummary = class {
 				this.doc.letter_head,
 				this.doc.language || frappe.boot.lang
 			);
-			// let w = window.open(
-			// 	frappe.urllib.get_full_url(
-			// 		'/printview?doctype=' +
-			// 		encodeURIComponent(this.doctype) +
-			// 		'&name=' +
-			// 		encodeURIComponent(this.docname) +
-			// 		'&trigger_print=0' +
-			// 		'&format=' +
-			// 		encodeURIComponent('Warranty') +
-			// 		'&no_letterhead=' +
-			// 		(this.doc.letter_head ? '0' : '1') +
-			// 		'&letterhead=' +
-			// 		encodeURIComponent(this.doc.letter_head) +
-			// 		(this.doc.language || frappe.boot.lang ? '&_lang=' + this.doc.language || frappe.boot.lang : '')
-			// 	));
-			console.log('warranty please!');
 		});
 	}
 
@@ -269,7 +253,6 @@ erpnext.PointOfSale.PastOrderSummary = class {
 
 	send_email() {
 		const frm = this.events.get_frm();
-		console.log('THIS',this);
 		const recipients = this.email_dialog.get_values().email_id;
 		const doc = this.doc || frm.doc;
 		const print_format = frm.pos_print_format;
@@ -314,8 +297,9 @@ erpnext.PointOfSale.PastOrderSummary = class {
 			if (m.condition) {
 				m.visible_btns.forEach(b => {
 					const class_name = b.split(' ')[0].toLowerCase();
+					const btn = __(b);
 					this.$summary_btns.append(
-						`<div class="summary-btn btn btn-default ${class_name}-btn">${b}</div>`
+						`<div class="summary-btn btn btn-default ${class_name}-btn">${btn}</div>`
 					);
 				});
 			}
