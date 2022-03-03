@@ -202,14 +202,24 @@ erpnext.PointOfSale.PastOrderSummary = class {
 		});
 		this.$summary_container.on('click', '.warranty-btn', () => {
 			const frm = this.events.get_frm();
-			console.log(frm);
-			frappe.utils.print(
-				this.doc.doctype,
-				this.doc.name,
-				'Warranty',
-				this.doc.letter_head,
-				this.doc.language || frappe.boot.lang
-			);
+			var that = this;
+			var d = new frappe.ui.Dialog({
+				title: frappe._("Print Format"),
+				fields: [
+					{
+						label: 'Print Format',
+						fieldname: 'print_format',
+						fieldtype: 'Link',
+						options: 'Print Format',
+						default: 'Default Warranty Print Format'
+					}
+				],
+				primary_action_label: 'Submit',
+				primary_action(values) {					
+					that.print_warranty(values.print_format);
+					// d.hide();
+				}
+			}).show();
 		});
 	}
 
@@ -224,6 +234,16 @@ erpnext.PointOfSale.PastOrderSummary = class {
 		);
 	}
 
+	print_warranty(print_format) {
+		const frm = this.events.get_frm();
+		frappe.utils.print(
+			this.doc.doctype,
+			this.doc.name,
+			print_format,
+			this.doc.letter_head,
+			this.doc.language || frappe.boot.lang
+		);
+	}
 	attach_shortcuts() {
 		const ctrl_label = frappe.utils.is_mac() ? '⌘' : 'Ctrl';
 		this.$summary_container.find('.print-btn').attr("title", `${ctrl_label}+P`);
