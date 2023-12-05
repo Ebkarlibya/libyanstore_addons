@@ -170,3 +170,18 @@ user_data_fields = [
 # auth_hooks = [
 # 	"libyanstore_addons.auth.validate"
 # ]
+
+fixtures = [
+    {
+        "dt": "Custom Field",
+        "filters": [
+            [
+                "fieldname", "in", (
+                    # Delivery Note
+                    "custom_shipping_area",
+                    "custom_expected_delivery"
+                )
+            ]
+        ]
+    }
+]
